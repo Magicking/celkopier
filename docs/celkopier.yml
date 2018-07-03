@@ -1,0 +1,78 @@
+swagger: '2.0'
+info:
+  title: Celkopier
+  version: "0.1.0"
+  description: |
+    Use your friendly RasberryPi to scan your file
+produces:
+  - application/json
+consumes:
+  - application/json
+
+responses:
+  scanned:
+    description: Scanned picture
+    schema:
+      type: string
+      format: binary
+
+paths:
+  /scan:
+    post:
+      operationId: scan
+      description: Start scanner
+      responses:
+        200:
+        default:
+          description: Internal error
+          schema:
+            $ref: '#/definitions/Error'
+  /listscanned:
+    get:
+      summary: List scanned pictures
+      operationId: listScanned
+      description: List scanned pictures
+      responses:
+        200:
+          description: List of scanned pictures
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Internal error
+          schema:
+            $ref: '#/definitions/Error'
+  /uploadscanned:
+    post:
+      summary: Upload a scanned picture
+      operationId: upload
+      description: Upload a scanned picture
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: formData
+          name: scanned
+          type: file
+          required: true
+          description: Scanned image
+      responses:
+        200:
+        default:
+          description: Internal error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
+    required:
+      - code
+      - message

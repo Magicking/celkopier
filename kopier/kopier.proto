@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package kopier;
+
+service Scanner {
+ rpc Scan(google.protobuf.Empty) returns (google.protobuf.Empty) {}
+}
